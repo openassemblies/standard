@@ -1,0 +1,228 @@
+{
+  "materialDefinitionId": "https://id.example.org/assemblies/trapeze-hanger-001",
+  "identity": {
+    "assetKind": "Instance",
+    "serialNumber": "SN-000001",
+    "lot": "LOT-EXAMPLE-A"
+  },
+  "classification": [
+    {
+      "system": "ifc",
+      "code": "IfcElementAssembly",
+      "version": "4.3",
+      "uri": "https://identifier.buildingsmart.org/uri/buildingsmart/ifc/4.3/class/IfcElementAssembly",
+      "licence": "cc-by-nd-4.0",
+      "resolution": "VERIFIED",
+      "resolvedVia": "bsdd-api Class/v1",
+      "observedAt": "2026-10-29",
+      "synthetic": false,
+      "label": "USERDEFINED, ObjectType TRAPEZE_HANGER: IFC 4.3 SUPPORTINGASSEMBLY is a railway overhead-line support"
+    }
+  ],
+  "hasPart": [
+    {
+      "materialDefinitionId": "https://id.example.org/parts/strut-channel-41x41",
+      "requirementId": "MAT-1",
+      "bulkCount": false,
+      "quantity": 1,
+      "uom": "EA",
+      "basis": {
+        "kind": "default",
+        "source": "JO-EXAMPLE-001"
+      },
+      "occurrences": [
+        {
+          "occurrenceId": "C1",
+          "placement": {
+            "location": [
+              -150,
+              0,
+              -20.5
+            ],
+            "axis": [
+              1,
+              0,
+              0
+            ],
+            "refDirection": [
+              0,
+              1,
+              0
+            ],
+            "unit": "MMT"
+          }
+        }
+      ]
+    },
+    {
+      "materialDefinitionId": "https://id.example.org/parts/threaded-rod-m10",
+      "requirementId": "MAT-2",
+      "bulkCount": false,
+      "quantity": 2,
+      "uom": "EA",
+      "basis": {
+        "kind": "default",
+        "source": "JO-EXAMPLE-001"
+      },
+      "occurrences": [
+        {
+          "occurrenceId": "R1",
+          "placement": {
+            "location": [
+              -100,
+              0,
+              -64.4
+            ],
+            "axis": [
+              0,
+              0,
+              1
+            ],
+            "refDirection": [
+              1,
+              0,
+              0
+            ],
+            "unit": "MMT"
+          },
+          "parameters": [
+            {
+              "propertyUri": "https://identifier.buildingsmart.org/uri/etim/etim/10.1/prop/EF001438",
+              "propertyCode": "EF001438",
+              "dataType": "Real",
+              "numericValue": 428,
+              "unit": "MMT",
+              "basis": {
+                "kind": "derived",
+                "method": "from 10 mm below the lower nut (z -64.4) to 15 mm into the anchor whose face is the slab soffit (z 348.6), rod top z 363.6: 363.6 + 64.4 = 428.0",
+                "source": "slab soffit 348.6 mm above the channel top, read from the host building model"
+              }
+            }
+          ]
+        },
+        {
+          "occurrenceId": "R2",
+          "placement": {
+            "location": [
+              100,
+              0,
+              -64.4
+            ],
+            "axis": [
+              0,
+              0,
+              1
+            ],
+            "refDirection": [
+              1,
+              0,
+              0
+            ],
+            "unit": "MMT"
+          },
+          "parameters": [
+            {
+              "propertyUri": "https://identifier.buildingsmart.org/uri/etim/etim/10.1/prop/EF001438",
+              "propertyCode": "EF001438",
+              "dataType": "Real",
+              "numericValue": 428,
+              "unit": "MMT",
+              "basis": {
+                "kind": "derived",
+                "method": "from 10 mm below the lower nut (z -64.4) to 15 mm into the anchor whose face is the slab soffit (z 348.6), rod top z 363.6: 363.6 + 64.4 = 428.0",
+                "source": "slab soffit 348.6 mm above the channel top, read from the host building model"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "materialDefinitionId": "https://id.example.org/parts/drop-in-anchor-m10",
+      "requirementId": "MAT-3",
+      "bulkCount": false,
+      "quantity": 2,
+      "uom": "EA",
+      "basis": {
+        "kind": "default",
+        "source": "JO-EXAMPLE-001"
+      },
+      "occurrences": [
+        {
+          "occurrenceId": "A1",
+          "placement": {
+            "location": [
+              -100,
+              0,
+              348.6
+            ],
+            "axis": [
+              0,
+              0,
+              1
+            ],
+            "refDirection": [
+              1,
+              0,
+              0
+            ],
+            "unit": "MMT"
+          }
+        },
+        {
+          "occurrenceId": "A2",
+          "placement": {
+            "location": [
+              100,
+              0,
+              348.6
+            ],
+            "axis": [
+              0,
+              0,
+              1
+            ],
+            "refDirection": [
+              1,
+              0,
+              0
+            ],
+            "unit": "MMT"
+          }
+        }
+      ]
+    }
+  ],
+  "assemblyAttributes": [
+    {
+      "propertyUri": "https://identifier.buildingsmart.org/uri/buildingsmart/ifc/4.3/prop/ObjectType",
+      "propertySet": "Attributes",
+      "dataType": "String",
+      "textValue": "TRAPEZE_HANGER",
+      "basis": {
+        "kind": "default",
+        "source": "IFC 4.3 IfcElementAssembly, PredefinedType USERDEFINED"
+      }
+    }
+  ],
+  "process": {
+    "jobOrderId": "JO-EXAMPLE-001",
+    "jobResponseId": "JR-EXAMPLE-001",
+    "jobState": "Completed",
+    "startTime": "2026-11-03T08:02:00-08:00",
+    "endTime": "2026-11-03T08:27:00-08:00",
+    "basis": {
+      "kind": "derived",
+      "method": "read from JR-EXAMPLE-001"
+    }
+  },
+  "provenance": {
+    "authoredAt": "2026-11-18",
+    "authoredBy": "Open Assemblies example",
+    "illustrative": true,
+    "sources": [
+      "assembly frame: origin at the channel's top-face centre, +Z up, +X along the channel; rods at x -100/+100 mm, the anchor face at the slab soffit",
+      "cut length: from 10 mm below the lower nut (z -64.4 mm) to 15 mm into the anchor (z 363.6 mm)"
+    ]
+  }
+}

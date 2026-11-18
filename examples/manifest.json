@@ -1,0 +1,12 @@
+{
+  "examples": [
+    {
+      "example": "examples/assembly-record/conduit-offset-emt-1in.json",
+      "schema": "assembly-record/0.3.1/assembly-record.schema.json"
+    },
+    {
+      "example": "examples/assembly-record/trapeze-hanger-001.json",
+      "schema": "assembly-record/0.3.1/assembly-record.schema.json"
+    }
+  ]
+}

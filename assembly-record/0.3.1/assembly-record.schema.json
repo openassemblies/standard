@@ -1,0 +1,815 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://openassemblies.org/assembly-record/0.3.1/assembly-record.schema.json",
+  "title": "Assembly Record",
+  "version": "0.3.1",
+  "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#AssemblyRecord",
+  "description": "One assembly type or instance: its identity, its classification, the parts it is made of with their quantities, its occurrence property values with their basis, its production process and the files it is made from (Open Assemblies).",
+  "type": "object",
+  "properties": {
+    "materialDefinitionId": {
+      "description": "The assembly's ISA-95 material definition identifier, as a URI.",
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#materialDefinitionId",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Uri"
+        }
+      ]
+    },
+    "identity": {
+      "description": "How the assembly is identified: its IEC 61406 identification link, the AAS globalAssetId it resolves to, and its serial number and lot.",
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#identity",
+      "allOf": [
+        {
+          "$ref": "#/definitions/IdentityCharacteristic"
+        }
+      ]
+    },
+    "classification": {
+      "description": "The assembly's classes in published systems: IFC element assembly and CCI functional class.",
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#classification",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ClassificationList"
+        }
+      ]
+    },
+    "hasPart": {
+      "description": "The parts the assembly is made of, each by its material definition ID, with Catena-X quantity semantics.",
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#hasPart",
+      "allOf": [
+        {
+          "$ref": "#/definitions/PartLineList"
+        }
+      ]
+    },
+    "assemblyAttributes": {
+      "description": "Values of the assembly's IFC property-set properties.",
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#assemblyAttributes",
+      "allOf": [
+        {
+          "$ref": "#/definitions/PropertyValueList"
+        }
+      ]
+    },
+    "manufacturerOccurrence": {
+      "description": "Values of the IFC Pset_ManufacturerOccurrence properties.",
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#manufacturerOccurrence",
+      "allOf": [
+        {
+          "$ref": "#/definitions/PropertyValueList"
+        }
+      ]
+    },
+    "constructionOccurrence": {
+      "description": "Values of the IFC Pset_ConstructionOccurence properties.",
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#constructionOccurrence",
+      "allOf": [
+        {
+          "$ref": "#/definitions/PropertyValueList"
+        }
+      ]
+    },
+    "installationOccurrence": {
+      "description": "Values of the IFC Pset_InstallationOccurrence properties.",
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#installationOccurrence",
+      "allOf": [
+        {
+          "$ref": "#/definitions/PropertyValueList"
+        }
+      ]
+    },
+    "process": {
+      "description": "The ISA-95 job order and job response that produced the assembly.",
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#process",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProcessCharacteristic"
+        }
+      ]
+    },
+    "status": {
+      "description": "The assembly's lifecycle status, keyed by its published property URI.",
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#status",
+      "allOf": [
+        {
+          "$ref": "#/definitions/StatusCharacteristic"
+        }
+      ]
+    },
+    "fabricationFiles": {
+      "description": "The assembly's geometry and machining files (AP242, AP238, DSTV XAS), referenced by URI and SHA-256, never embedded.",
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#fabricationFiles",
+      "allOf": [
+        {
+          "$ref": "#/definitions/FileReferenceList"
+        }
+      ]
+    },
+    "provenance": {
+      "description": "Who authored the record, when, from which sources, and whether it is illustrative.",
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#provenance",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ProvenanceCharacteristic"
+        }
+      ]
+    }
+  },
+  "required": [
+    "materialDefinitionId",
+    "identity",
+    "classification",
+    "hasPart",
+    "provenance"
+  ],
+  "additionalProperties": false,
+  "definitions": {
+    "AssetKind": {
+      "type": "string",
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#AssetKind",
+      "description": "The AAS asset kind.",
+      "enum": [
+        "Type",
+        "Instance",
+        "Batch"
+      ]
+    },
+    "BasisCharacteristic": {
+      "$ref": "https://schemas.ectropy.ai/v/0.8.0/flow/flow-common.schema.json#/definitions/basis"
+    },
+    "BasisKind": {
+      "type": "string",
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#BasisKind",
+      "enum": [
+        "measured",
+        "derived",
+        "default",
+        "substituted"
+      ]
+    },
+    "Bend": {
+      "description": "One bend: the straight fed before it, the rotation of its plane from the previous bend's plane (0 for the first bend), its angle, and the centreline radius it is bent to, when stated.",
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#Bend",
+      "type": "object",
+      "properties": {
+        "straightBefore": {
+          "description": "The straight length fed before the bend, along the centreline, from the end of the previous bend (from the part's start for the first).",
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#straightBefore",
+          "allOf": [
+            {
+              "$ref": "#/definitions/QuantityCharacteristic"
+            }
+          ]
+        },
+        "rotation": {
+          "description": "The rotation of the bend's plane about the tube's axis from the previous bend's plane, in degrees (DD); 0 for the first bend.",
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#rotation",
+          "allOf": [
+            {
+              "$ref": "#/definitions/QuantityCharacteristic"
+            }
+          ]
+        },
+        "angle": {
+          "description": "The bend angle, in degrees (DD).",
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#angle",
+          "allOf": [
+            {
+              "$ref": "#/definitions/QuantityCharacteristic"
+            }
+          ]
+        },
+        "centerlineRadius": {
+          "description": "The radius the bend is made to, at the tube's centreline (a bender shoe's radius).",
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#centerlineRadius",
+          "allOf": [
+            {
+              "$ref": "#/definitions/QuantityCharacteristic"
+            }
+          ]
+        }
+      },
+      "required": [
+        "rotation",
+        "angle"
+      ],
+      "additionalProperties": false
+    },
+    "BendList": {
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#BendList",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Bend"
+      }
+    },
+    "BendSequenceCharacteristic": {
+      "description": "A part's bends in order, the straight after the last, and the basis of the figures. A part family states its bends' angles, rotations and radius; a piece of it adds its straights.",
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#BendSequenceCharacteristic",
+      "type": "object",
+      "properties": {
+        "bendList": {
+          "description": "The bends in the order the part is bent.",
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#bendList",
+          "allOf": [
+            {
+              "$ref": "#/definitions/BendList"
+            }
+          ]
+        },
+        "finalStraight": {
+          "description": "The straight length after the last bend, along the centreline.",
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#finalStraight",
+          "allOf": [
+            {
+              "$ref": "#/definitions/QuantityCharacteristic"
+            }
+          ]
+        },
+        "basis": {
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#basis",
+          "allOf": [
+            {
+              "$ref": "#/definitions/BasisCharacteristic"
+            }
+          ]
+        }
+      },
+      "required": [
+        "bendList",
+        "basis"
+      ],
+      "additionalProperties": false
+    },
+    "ClassificationList": {
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#ClassificationList",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ClassificationReference"
+      }
+    },
+    "ClassificationReference": {
+      "$ref": "https://schemas.ectropy.ai/v/0.1.0/_definitions/classification-ref.schema.json"
+    },
+    "Coordinates": {
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#Coordinates",
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 3,
+      "minItems": 3
+    },
+    "Count": {
+      "type": "integer",
+      "minimum": 0,
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#Count"
+    },
+    "Day": {
+      "type": "string",
+      "format": "date",
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#Day"
+    },
+    "Decimal": {
+      "type": "number",
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#Decimal"
+    },
+    "FileReference": {
+      "$ref": "https://schemas.ectropy.ai/v/0.1.0/_definitions/file-reference.schema.json"
+    },
+    "FileReferenceList": {
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#FileReferenceList",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/FileReference"
+      }
+    },
+    "Flag": {
+      "type": "boolean",
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#Flag"
+    },
+    "IdentityCharacteristic": {
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#IdentityCharacteristic",
+      "type": "object",
+      "properties": {
+        "iec61406Link": {
+          "description": "The IEC 61406 identification link (a GS1 Digital Link under EN 18219 is accepted).",
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#iec61406Link",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Uri"
+            }
+          ]
+        },
+        "globalAssetId": {
+          "description": "The AAS globalAssetId the identification link resolves to.",
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#globalAssetId",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Uri"
+            }
+          ]
+        },
+        "assetKind": {
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#assetKind",
+          "allOf": [
+            {
+              "$ref": "#/definitions/AssetKind"
+            }
+          ]
+        },
+        "serialNumber": {
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#serialNumber",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Text"
+            }
+          ]
+        },
+        "lot": {
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#lot",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Text"
+            }
+          ]
+        }
+      },
+      "required": [
+        "assetKind"
+      ],
+      "additionalProperties": false
+    },
+    "Instant": {
+      "type": "string",
+      "pattern": "-?([1-9][0-9]{3,}|0[0-9]{3})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T(([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\\.[0-9]+)?|(24:00:00(\\.0+)?))(Z|(\\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?",
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#Instant"
+    },
+    "Occurrence": {
+      "description": "One occurrence: where the part's base-form frame sits in the assembly's frame, and the values of any base-form dimension that varies by occurrence (such as a rod's cut length), each keyed by its published property URI.",
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#Occurrence",
+      "type": "object",
+      "properties": {
+        "occurrenceId": {
+          "description": "The occurrence's identifier, unique within its assembly.",
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#occurrenceId",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Text"
+            }
+          ]
+        },
+        "placement": {
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#placement",
+          "allOf": [
+            {
+              "$ref": "#/definitions/PlacementCharacteristic"
+            }
+          ]
+        },
+        "parameters": {
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#parameters",
+          "allOf": [
+            {
+              "$ref": "#/definitions/PropertyValueList"
+            }
+          ]
+        },
+        "bends": {
+          "description": "How the occurrence's part is bent, as nominal bend data: each bend in order, as the straight length fed before it, the rotation of its plane and its angle, then the straight after the last bend. This is the tube industry's LRA form (Length, Rotation, Angle; Eaton Leonard's YBC names the same three bender axes): nominal geometry, never adjusted for springback or twist -- a machine's adjusted bender data is its own. Each value is relative to the bend before it (the incremental form), not to the tube's start. Lengths are along the centreline.",
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#bends",
+          "allOf": [
+            {
+              "$ref": "#/definitions/BendSequenceCharacteristic"
+            }
+          ]
+        }
+      },
+      "required": [
+        "occurrenceId",
+        "placement"
+      ],
+      "additionalProperties": false
+    },
+    "OccurrenceList": {
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#OccurrenceList",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Occurrence"
+      }
+    },
+    "PartLine": {
+      "description": "One part line. A bulk-counted part carries no quantity; any other carries a quantity, its unit and its basis. A line with occurrences carries one per counted unit.",
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#PartLine",
+      "type": "object",
+      "properties": {
+        "materialDefinitionId": {
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#partMaterialDefinitionId",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Uri"
+            }
+          ]
+        },
+        "requirementId": {
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#requirementId",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Text"
+            }
+          ]
+        },
+        "bulkCount": {
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#bulkCount",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Flag"
+            }
+          ]
+        },
+        "quantity": {
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#quantity",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Decimal"
+            }
+          ]
+        },
+        "uom": {
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#uom",
+          "allOf": [
+            {
+              "$ref": "#/definitions/UnitOfMeasure"
+            }
+          ]
+        },
+        "basis": {
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#basis",
+          "allOf": [
+            {
+              "$ref": "#/definitions/BasisCharacteristic"
+            }
+          ]
+        },
+        "source": {
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#source",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Text"
+            }
+          ]
+        },
+        "occurrences": {
+          "description": "Each placed occurrence of the part in the assembly's frame -- the record's design view. The assembly's frame has its origin at the assembly's insertion point, +Z up and +X along the assembly's principal member; the host model supplies only the insertion point and the +X direction.",
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#occurrences",
+          "allOf": [
+            {
+              "$ref": "#/definitions/OccurrenceList"
+            }
+          ]
+        }
+      },
+      "required": [
+        "materialDefinitionId",
+        "requirementId",
+        "bulkCount"
+      ],
+      "additionalProperties": false
+    },
+    "PartLineList": {
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#PartLineList",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/PartLine"
+      }
+    },
+    "PlacementCharacteristic": {
+      "description": "The part's base-form origin, local Z (axis) and local X (refDirection) in the assembly's frame. Coordinates are in unit; the directions are unit vectors.",
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#PlacementCharacteristic",
+      "type": "object",
+      "properties": {
+        "location": {
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#location",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Coordinates"
+            }
+          ]
+        },
+        "axis": {
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#axis",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Coordinates"
+            }
+          ]
+        },
+        "refDirection": {
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#refDirection",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Coordinates"
+            }
+          ]
+        },
+        "unit": {
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#unit",
+          "allOf": [
+            {
+              "$ref": "#/definitions/UnitOfMeasure"
+            }
+          ]
+        }
+      },
+      "required": [
+        "location",
+        "axis",
+        "refDirection",
+        "unit"
+      ],
+      "additionalProperties": false
+    },
+    "ProcessCharacteristic": {
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#ProcessCharacteristic",
+      "type": "object",
+      "properties": {
+        "jobOrderId": {
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#jobOrderId",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Text"
+            }
+          ]
+        },
+        "jobResponseId": {
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#jobResponseId",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Text"
+            }
+          ]
+        },
+        "jobState": {
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#jobState",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Text"
+            }
+          ]
+        },
+        "startTime": {
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#startTime",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Instant"
+            }
+          ]
+        },
+        "endTime": {
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#endTime",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Instant"
+            }
+          ]
+        },
+        "basis": {
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#basis",
+          "allOf": [
+            {
+              "$ref": "#/definitions/BasisCharacteristic"
+            }
+          ]
+        }
+      },
+      "required": [
+        "jobOrderId",
+        "jobResponseId",
+        "jobState",
+        "startTime",
+        "endTime",
+        "basis"
+      ],
+      "additionalProperties": false
+    },
+    "PropertyValue": {
+      "description": "One property's value, keyed by its published property URI. At most one of numericValue, textValue and booleanValue is present, and a present value carries its basis.",
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#PropertyValue",
+      "type": "object",
+      "properties": {
+        "propertyUri": {
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#propertyUri",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Uri"
+            }
+          ]
+        },
+        "propertyCode": {
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#propertyCode",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Text"
+            }
+          ]
+        },
+        "name": {
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#name",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Text"
+            }
+          ]
+        },
+        "propertySet": {
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#propertySet",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Text"
+            }
+          ]
+        },
+        "dataType": {
+          "description": "The property's data type as its dictionary publishes it.",
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#dataType",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Text"
+            }
+          ]
+        },
+        "allowedUnits": {
+          "description": "The units the property's dictionary allows, as the dictionary publishes their symbols.",
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#allowedUnits",
+          "allOf": [
+            {
+              "$ref": "#/definitions/TextList"
+            }
+          ]
+        },
+        "numericValue": {
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#numericValue",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Decimal"
+            }
+          ]
+        },
+        "textValue": {
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#textValue",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Text"
+            }
+          ]
+        },
+        "booleanValue": {
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#booleanValue",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Flag"
+            }
+          ]
+        },
+        "unit": {
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#unit",
+          "allOf": [
+            {
+              "$ref": "#/definitions/UnitOfMeasure"
+            }
+          ]
+        },
+        "basis": {
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#basis",
+          "allOf": [
+            {
+              "$ref": "#/definitions/BasisCharacteristic"
+            }
+          ]
+        }
+      },
+      "required": [
+        "propertyUri"
+      ],
+      "additionalProperties": false
+    },
+    "PropertyValueList": {
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#PropertyValueList",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/PropertyValue"
+      }
+    },
+    "ProvenanceCharacteristic": {
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#ProvenanceCharacteristic",
+      "type": "object",
+      "properties": {
+        "authoredAt": {
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#authoredAt",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Day"
+            }
+          ]
+        },
+        "authoredBy": {
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#authoredBy",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Text"
+            }
+          ]
+        },
+        "illustrative": {
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#illustrative",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Flag"
+            }
+          ]
+        },
+        "sources": {
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#sources",
+          "allOf": [
+            {
+              "$ref": "#/definitions/TextList"
+            }
+          ]
+        }
+      },
+      "required": [
+        "authoredAt",
+        "authoredBy",
+        "illustrative",
+        "sources"
+      ],
+      "additionalProperties": false
+    },
+    "QuantityCharacteristic": {
+      "$ref": "https://schemas.ectropy.ai/v/2.0.0/_definitions/units.schema.json#/definitions/quantity"
+    },
+    "Resolution": {
+      "type": "string",
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#Resolution",
+      "enum": [
+        "VERIFIED",
+        "UNVERIFIED",
+        "PENDING",
+        "NONE-AVAILABLE"
+      ]
+    },
+    "StatusCharacteristic": {
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#StatusCharacteristic",
+      "type": "object",
+      "properties": {
+        "propertyUri": {
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#propertyUri",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Uri"
+            }
+          ]
+        },
+        "textValue": {
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#textValue",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Text"
+            }
+          ]
+        },
+        "basis": {
+          "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#basis",
+          "allOf": [
+            {
+              "$ref": "#/definitions/BasisCharacteristic"
+            }
+          ]
+        }
+      },
+      "required": [
+        "propertyUri"
+      ],
+      "additionalProperties": false
+    },
+    "Text": {
+      "type": "string",
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#Text"
+    },
+    "TextList": {
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#TextList",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "UnitOfMeasure": {
+      "$ref": "https://schemas.ectropy.ai/v/2.0.0/_definitions/units.schema.json#/definitions/uom"
+    },
+    "Uri": {
+      "type": "string",
+      "format": "uri",
+      "x-samm-aspect-model-urn": "urn:samm:org.openassemblies.assembly-record:0.3.1#Uri"
+    }
+  }
+}

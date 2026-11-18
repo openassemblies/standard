@@ -1,0 +1,44 @@
+name: ci
+
+# The gate on every change: canonical form, $id = served URL naming the record's version, closure under
+# https://openassemblies.org/ and the pinned shared definitions, draft-07 compile, every example validates and holds
+# together, public text clean, published versions immutable; then the site stages, and the schema and AAS
+# template are regenerated from the aspect model and must match what is committed.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+env:
+  SAMM_CLI_VERSION: '2.16.0'
+  SAMM_CLI_SHA256: 'f3f0900e9c9001d4dc97c5b04534dcb02ba2c0c3991339e4830d3d8b014efdcd'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0 # scripts/versions.mjs reads every published version from history
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - run: npm run site
+      - uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
+        with:
+          distribution: temurin
+          java-version: '25'
+      - name: Fetch the Eclipse ESMF SAMM CLI, verified by SHA-256
+        run: |
+          curl -sSfL -o "$RUNNER_TEMP/samm-cli.jar" \
+            "https://github.com/eclipse-esmf/esmf-sdk/releases/download/v${SAMM_CLI_VERSION}/samm-cli-${SAMM_CLI_VERSION}.jar"
+          echo "${SAMM_CLI_SHA256}  $RUNNER_TEMP/samm-cli.jar" | sha256sum -c -
+      - name: The schema and AAS template match the aspect model they are generated from
+        run: npm run generate -- --check java -jar "$RUNNER_TEMP/samm-cli.jar"
