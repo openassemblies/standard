@@ -1,0 +1,26 @@
+{
+  "name": "@openassemblies/standard",
+  "version": "0.3.1",
+  "description": "Open Assemblies: an open standard for the assembly record. JSON Schema and AAS submodel template, generated from a SAMM aspect model, served at https://openassemblies.org/.",
+  "license": "Apache-2.0",
+  "homepage": "https://openassemblies.org/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/openassemblies/standard.git"
+  },
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "check": "node scripts/check.mjs",
+    "site": "node scripts/build-site.mjs",
+    "served": "node scripts/check-served.mjs",
+    "generate": "python3 scripts/generate.py"
+  },
+  "devDependencies": {
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

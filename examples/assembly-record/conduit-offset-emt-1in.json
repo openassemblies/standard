@@ -1,0 +1,113 @@
+{
+  "materialDefinitionId": "https://id.example.org/assemblies/conduit-offset-emt-1in",
+  "identity": {
+    "assetKind": "Type"
+  },
+  "classification": [
+    {
+      "system": "ifc",
+      "code": "IfcCableCarrierSegmentCONDUITSEGMENT",
+      "version": "4.3",
+      "uri": "https://identifier.buildingsmart.org/uri/buildingsmart/ifc/4.3/class/IfcCableCarrierSegmentCONDUITSEGMENT",
+      "licence": "cc-by-nd-4.0",
+      "resolution": "VERIFIED",
+      "resolvedVia": "bsdd-api Class/v1",
+      "observedAt": "2026-11-16",
+      "synthetic": false,
+      "label": "IFC 4.3's predefined type for conduit"
+    }
+  ],
+  "assemblyAttributes": [
+    {
+      "propertyUri": "https://identifier.buildingsmart.org/uri/buildingsmart/ifc/4.3/prop/ObjectType",
+      "propertySet": "Attributes",
+      "dataType": "String",
+      "textValue": "OFFSET",
+      "basis": {
+        "kind": "default",
+        "source": "Bill Bamford, 'Bending conduit / tubing using hand benders', Jan 2012 (https://www.mikeholt.com/documents/freestuff/Hand_bending_conduit_and_tubing_by_Bill_Bamford.pdf)"
+      }
+    }
+  ],
+  "hasPart": [
+    {
+      "materialDefinitionId": "https://id.example.org/parts/emt-1in",
+      "requirementId": "MAT-1",
+      "bulkCount": false,
+      "quantity": 1,
+      "uom": "EA",
+      "basis": {
+        "kind": "default",
+        "source": "JO-EXAMPLE-002"
+      },
+      "occurrences": [
+        {
+          "occurrenceId": "S1",
+          "placement": {
+            "location": [
+              0,
+              0,
+              0
+            ],
+            "axis": [
+              0,
+              0,
+              1
+            ],
+            "refDirection": [
+              1,
+              0,
+              0
+            ],
+            "unit": "INH"
+          },
+          "bends": {
+            "bendList": [
+              {
+                "rotation": {
+                  "value": 0,
+                  "uom": "DD"
+                },
+                "angle": {
+                  "value": 30,
+                  "uom": "DD"
+                },
+                "centerlineRadius": {
+                  "value": 5.75,
+                  "uom": "INH"
+                }
+              },
+              {
+                "rotation": {
+                  "value": 180,
+                  "uom": "DD"
+                },
+                "angle": {
+                  "value": 30,
+                  "uom": "DD"
+                },
+                "centerlineRadius": {
+                  "value": 5.75,
+                  "uom": "INH"
+                }
+              }
+            ],
+            "basis": {
+              "kind": "default",
+              "source": "Bill Bamford, 'Bending conduit / tubing using hand benders', Jan 2012 (https://www.mikeholt.com/documents/freestuff/Hand_bending_conduit_and_tubing_by_Bill_Bamford.pdf): 'two equal degree bends that are bent in opposite directions', with 30 degree angles; plane rotation 0 for a bend in the previous bend's plane and direction, 180 for one bent the opposite way. Radius: NFPA 70, National Electrical Code, 2017 edition, Chapter 9 Table 2 'Radius of Conduit and Tubing Bends', one shot and full shoe benders: 1 in trade size, 5-3/4 in. A family states angles, rotations and radius; a piece adds its straights."
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "provenance": {
+    "authoredAt": "2026-11-18",
+    "authoredBy": "Open Assemblies example",
+    "illustrative": false,
+    "sources": [
+      "Bill Bamford, 'Bending conduit / tubing using hand benders', Jan 2012 (https://www.mikeholt.com/documents/freestuff/Hand_bending_conduit_and_tubing_by_Bill_Bamford.pdf)",
+      "NFPA 70, National Electrical Code, 2017 edition, Chapter 9 Table 2 'Radius of Conduit and Tubing Bends', one shot and full shoe benders: 1 in trade size, 5-3/4 in"
+    ]
+  }
+}

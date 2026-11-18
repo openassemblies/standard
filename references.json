@@ -1,0 +1,36 @@
+{
+  "description": "The shared definitions this standard's records $ref outside their own namespace, each at an immutable versioned URL. The check fetches each document from url, refuses it unless its SHA-256 is sha256, and resolves it at id: a record's $ref names the versioned URL, and a definition's own $ref to another definition names that one's unversioned $id, held here at the version that $id served when it was pinned.",
+  "base": "https://schemas.ectropy.ai/v/",
+  "documents": [
+    {
+      "id": "https://schemas.ectropy.ai/v/0.1.0/_definitions/classification-ref.schema.json",
+      "url": "https://schemas.ectropy.ai/v/0.1.0/_definitions/classification-ref.schema.json",
+      "sha256": "716c912d8605afa50fffdb7420087df5708c83c40899048228a3f47c26f85cf3"
+    },
+    {
+      "id": "https://schemas.ectropy.ai/v/0.1.0/_definitions/file-reference.schema.json",
+      "url": "https://schemas.ectropy.ai/v/0.1.0/_definitions/file-reference.schema.json",
+      "sha256": "b2fe1b12e0421205a91a05600dfc5df40bb15e8787ca1396e0dddb8a4551ee57"
+    },
+    {
+      "id": "https://schemas.ectropy.ai/v/0.8.0/flow/flow-common.schema.json",
+      "url": "https://schemas.ectropy.ai/v/0.8.0/flow/flow-common.schema.json",
+      "sha256": "1da15de9a439571e2ac75d28be0e8e0ad6630297eed30019e8efacc82b3ff4dc"
+    },
+    {
+      "id": "https://schemas.ectropy.ai/v/2.0.0/_definitions/units.schema.json",
+      "url": "https://schemas.ectropy.ai/v/2.0.0/_definitions/units.schema.json",
+      "sha256": "5e40ce04995621c1f8478484eeb93233b9b3eb3b326ebbe3cb18e73109e1e7c2"
+    },
+    {
+      "id": "https://schemas.ectropy.ai/_definitions/provenance.schema.json",
+      "url": "https://schemas.ectropy.ai/v/0.2.0/_definitions/provenance.schema.json",
+      "sha256": "77c325f20a2c20c289a81a5a85847f3947be386d079a04496e548e35caa099ab"
+    },
+    {
+      "id": "https://schemas.ectropy.ai/_definitions/record-id.schema.json",
+      "url": "https://schemas.ectropy.ai/v/1.0.0/_definitions/record-id.schema.json",
+      "sha256": "9a9c0936ac49a9bf35072e4a0dca1436e1f06cec658ff403bbd69ae0fe4f66b1"
+    }
+  ]
+}
