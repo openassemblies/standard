@@ -7,6 +7,10 @@
     {
       "example": "examples/assembly-record/trapeze-hanger-001.json",
       "schema": "assembly-record/0.3.1/assembly-record.schema.json"
+    },
+    {
+      "example": "examples/assembly-record/partition-1hr-steel-stud-type-x.json",
+      "schema": "assembly-record/0.4.0/assembly-record.schema.json"
     }
   ]
 }

@@ -26,6 +26,7 @@ BINDINGS = {
     "Quantity": UNITS + "#/definitions/quantity",
     "QuantityCharacteristic": UNITS + "#/definitions/quantity",
     "FileReferenceCharacteristic": FILE_REFERENCE,
+    "ProductKey": FLOW_COMMON + "#/definitions/productKey",
 }
 RECORD = "assembly-record"
 NAMESPACE = "org.openassemblies.assembly-record"
