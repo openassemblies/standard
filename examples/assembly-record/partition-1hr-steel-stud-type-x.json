@@ -1,0 +1,268 @@
+{
+  "materialDefinitionId": "https://id.example.org/assemblies/partition-1hr-steel-stud-type-x",
+  "identity": {
+    "assetKind": "Type"
+  },
+  "classification": [
+    {
+      "system": "ifc",
+      "code": "IfcWall",
+      "version": "4.3",
+      "uri": "https://identifier.buildingsmart.org/uri/buildingsmart/ifc/4.3/class/IfcWall",
+      "licence": "cc-by-nd-4.0",
+      "resolution": "UNVERIFIED",
+      "observedAt": "2026-11-19",
+      "synthetic": false,
+      "label": "PARTITIONING: a non-load-bearing interior partition"
+    }
+  ],
+  "declaredUnit": "FTK",
+  "listing": {
+    "kind": "ul-design",
+    "reference": "U419"
+  },
+  "hasPart": [
+    {
+      "materialDefinitionId": "https://id.example.org/parts/joint-compound-all-purpose",
+      "requirementId": "MAT-1",
+      "bulkCount": false,
+      "quantity": 0.01,
+      "uom": "GLL",
+      "basis": {
+        "kind": "default",
+        "source": "UL design U419 build-up; quantity per square foot of wall face; 1 gallon per 100 square feet of board, both passes"
+      },
+      "layer": {
+        "position": 1,
+        "face": "face-a",
+        "category": "Outer finish"
+      }
+    },
+    {
+      "materialDefinitionId": "https://id.example.org/parts/paper-joint-tape",
+      "requirementId": "MAT-2",
+      "bulkCount": false,
+      "quantity": 0.37,
+      "uom": "FOT",
+      "basis": {
+        "kind": "default",
+        "source": "UL design U419 build-up; quantity per square foot of wall face"
+      },
+      "layer": {
+        "position": 1,
+        "face": "face-a",
+        "category": "Outer finish"
+      }
+    },
+    {
+      "materialDefinitionId": "https://id.example.org/parts/gypsum-board-type-x-16mm",
+      "requirementId": "MAT-3",
+      "bulkCount": false,
+      "quantity": 1,
+      "uom": "FTK",
+      "basis": {
+        "kind": "default",
+        "source": "UL design U419 build-up; quantity per square foot of wall face"
+      },
+      "layer": {
+        "position": 2,
+        "face": "face-a",
+        "category": "Outer finish",
+        "thickness": {
+          "value": 15.9,
+          "uom": "MMT"
+        }
+      },
+      "listedProducts": [
+        {
+          "manufacturer": "usg-corporation",
+          "manufacturerProductId": "142110"
+        }
+      ]
+    },
+    {
+      "materialDefinitionId": "https://id.example.org/parts/drywall-screw-type-s-32mm",
+      "requirementId": "MAT-4",
+      "bulkCount": false,
+      "quantity": 1,
+      "uom": "EA",
+      "basis": {
+        "kind": "default",
+        "source": "UL design U419 build-up; quantity per square foot of wall face; one screw per square foot at 12 inches on centre"
+      },
+      "layer": {
+        "position": 2,
+        "face": "face-a"
+      }
+    },
+    {
+      "materialDefinitionId": "https://id.example.org/parts/steel-stud-92mm",
+      "requirementId": "MAT-5",
+      "bulkCount": false,
+      "quantity": 0.75,
+      "uom": "FOT",
+      "basis": {
+        "kind": "default",
+        "source": "UL design U419 build-up; quantity per square foot of wall face; studs at 16 inches on centre"
+      },
+      "layer": {
+        "position": 3,
+        "face": "core",
+        "category": "LoadBearing"
+      }
+    },
+    {
+      "materialDefinitionId": "https://id.example.org/parts/steel-track-92mm",
+      "requirementId": "MAT-6",
+      "bulkCount": false,
+      "quantity": 0.2,
+      "uom": "FOT",
+      "basis": {
+        "kind": "default",
+        "source": "UL design U419 build-up; quantity per square foot of wall face"
+      },
+      "layer": {
+        "position": 3,
+        "face": "core",
+        "category": "LoadBearing"
+      }
+    },
+    {
+      "materialDefinitionId": "https://id.example.org/parts/mineral-wool-batt-75mm",
+      "requirementId": "MAT-7",
+      "bulkCount": false,
+      "quantity": 1,
+      "uom": "FTK",
+      "basis": {
+        "kind": "default",
+        "source": "UL design U419 build-up; quantity per square foot of wall face"
+      },
+      "layer": {
+        "position": 3,
+        "face": "core",
+        "category": "Insulation",
+        "thickness": {
+          "value": 76.2,
+          "uom": "MMT"
+        }
+      }
+    },
+    {
+      "materialDefinitionId": "https://id.example.org/parts/gypsum-board-type-x-16mm",
+      "requirementId": "MAT-8",
+      "bulkCount": false,
+      "quantity": 1,
+      "uom": "FTK",
+      "basis": {
+        "kind": "default",
+        "source": "UL design U419 build-up; quantity per square foot of wall face"
+      },
+      "layer": {
+        "position": 4,
+        "face": "face-b",
+        "category": "Inner finish",
+        "thickness": {
+          "value": 15.9,
+          "uom": "MMT"
+        }
+      },
+      "listedProducts": [
+        {
+          "manufacturer": "usg-corporation",
+          "manufacturerProductId": "142110"
+        }
+      ]
+    },
+    {
+      "materialDefinitionId": "https://id.example.org/parts/drywall-screw-type-s-32mm",
+      "requirementId": "MAT-9",
+      "bulkCount": false,
+      "quantity": 1,
+      "uom": "EA",
+      "basis": {
+        "kind": "default",
+        "source": "UL design U419 build-up; quantity per square foot of wall face; one screw per square foot at 12 inches on centre"
+      },
+      "layer": {
+        "position": 4,
+        "face": "face-b"
+      }
+    },
+    {
+      "materialDefinitionId": "https://id.example.org/parts/joint-compound-all-purpose",
+      "requirementId": "MAT-10",
+      "bulkCount": false,
+      "quantity": 0.01,
+      "uom": "GLL",
+      "basis": {
+        "kind": "default",
+        "source": "UL design U419 build-up; quantity per square foot of wall face; 1 gallon per 100 square feet of board, both passes"
+      },
+      "layer": {
+        "position": 5,
+        "face": "face-b",
+        "category": "Inner finish"
+      }
+    },
+    {
+      "materialDefinitionId": "https://id.example.org/parts/paper-joint-tape",
+      "requirementId": "MAT-11",
+      "bulkCount": false,
+      "quantity": 0.37,
+      "uom": "FOT",
+      "basis": {
+        "kind": "default",
+        "source": "UL design U419 build-up; quantity per square foot of wall face"
+      },
+      "layer": {
+        "position": 5,
+        "face": "face-b",
+        "category": "Inner finish"
+      }
+    }
+  ],
+  "assemblyAttributes": [
+    {
+      "propertyUri": "https://identifier.buildingsmart.org/uri/buildingsmart/ifc/4.3/prop/FireRating",
+      "name": "FireRating",
+      "propertySet": "Pset_WallCommon",
+      "dataType": "String",
+      "textValue": "1 HR",
+      "basis": {
+        "kind": "default",
+        "source": "UL design U419"
+      }
+    },
+    {
+      "propertyUri": "https://identifier.buildingsmart.org/uri/buildingsmart/ifc/4.3/prop/IsExternal",
+      "name": "IsExternal",
+      "propertySet": "Pset_WallCommon",
+      "dataType": "Boolean",
+      "booleanValue": false,
+      "basis": {
+        "kind": "default",
+        "source": "interior partition"
+      }
+    },
+    {
+      "propertyUri": "https://identifier.buildingsmart.org/uri/buildingsmart/ifc/4.3/prop/LoadBearing",
+      "name": "LoadBearing",
+      "propertySet": "Pset_WallCommon",
+      "dataType": "Boolean",
+      "booleanValue": false,
+      "basis": {
+        "kind": "default",
+        "source": "non-load-bearing partition"
+      }
+    }
+  ],
+  "provenance": {
+    "authoredAt": "2026-11-19",
+    "authoredBy": "Open Assemblies maintainers",
+    "illustrative": true,
+    "sources": [
+      "UL design U419 (fire-resistance rating, ANSI/UL 263)",
+      "USG Sheetrock Brand Firecode X Panels product 142110, USG wallboard catalog"
+    ]
+  }
+}

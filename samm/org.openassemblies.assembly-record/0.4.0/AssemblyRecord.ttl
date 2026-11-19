@@ -1,0 +1,526 @@
+#######################################################################
+# Open Assemblies -- assembly record, 0.4.0
+# The source of https://openassemblies.org/assembly-record/0.4.0/assembly-record.schema.json
+# and of its AAS submodel template, both generated from this aspect model.
+# Entities and characteristics that are shared definitions -- classification
+# references, the basis of a value, file references, units and quantities --
+# are bound to them at their pinned versions; see each one's description.
+#######################################################################
+@prefix samm: <urn:samm:org.eclipse.esmf.samm:meta-model:2.1.0#> .
+@prefix samm-c: <urn:samm:org.eclipse.esmf.samm:characteristic:2.1.0#> .
+@prefix samm-e: <urn:samm:org.eclipse.esmf.samm:entity:2.1.0#> .
+@prefix unit: <urn:samm:org.eclipse.esmf.samm:unit:2.1.0#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix : <urn:samm:org.openassemblies.assembly-record:0.4.0#> .
+
+:AssemblyRecord a samm:Aspect ;
+   samm:preferredName "Assembly record"@en ;
+   samm:description "One assembly type or instance: its identity, its classification, the parts it is made of with their quantities, its occurrence property values with their basis, its production process and the files it is made from (Open Assemblies)."@en ;
+   samm:properties ( :materialDefinitionId :identity :classification [ samm:property :declaredUnit ; samm:optional true ] [ samm:property :listing ; samm:optional true ] :hasPart [ samm:property :assemblyAttributes ; samm:optional true ] [ samm:property :manufacturerOccurrence ; samm:optional true ] [ samm:property :constructionOccurrence ; samm:optional true ] [ samm:property :installationOccurrence ; samm:optional true ] [ samm:property :process ; samm:optional true ] [ samm:property :status ; samm:optional true ] [ samm:property :fabricationFiles ; samm:optional true ] :provenance ) ;
+   samm:operations ( ) ;
+   samm:events ( ) .
+
+# ---- top-level properties -------------------------------------------
+
+:materialDefinitionId a samm:Property ;
+   samm:preferredName "Material definition ID"@en ;
+   samm:description "The assembly's ISA-95 material definition identifier, as a URI."@en ;
+   samm:characteristic :Uri ;
+   samm:exampleValue "https://id.example.org/assemblies/trapeze-001"^^xsd:anyURI .
+
+:identity a samm:Property ;
+   samm:preferredName "Identity"@en ;
+   samm:description "How the assembly is identified: its IEC 61406 identification link, the AAS globalAssetId it resolves to, and its serial number and lot."@en ;
+   samm:characteristic :IdentityCharacteristic .
+
+:classification a samm:Property ;
+   samm:preferredName "Classification"@en ;
+   samm:description "The assembly's classes in published systems: IFC element assembly and CCI functional class."@en ;
+   samm:characteristic :ClassificationList .
+
+:declaredUnit a samm:Property ;
+   samm:preferredName "Declared unit"@en ;
+   samm:description "The unit one assembly is stated per (0.4.0). A system type built on a host states it per unit of the host: a wall, floor, roof or ceiling system per area of its face (FTK, MTK), a run per length (FOT, MTR), a discrete assembly per each (EA, C62). Every part line's quantity is per one declared unit, so a host occurrence's quantity in this unit times a part line's quantity is that part's quantity in the occurrence. Absent, the record states one assembly (an assembly instance, or a type counted per each)."@en ;
+   samm:characteristic :UnitOfMeasure ;
+   samm:exampleValue "FTK" .
+
+:listing a samm:Property ;
+   samm:preferredName "Listing"@en ;
+   samm:description "The published design that rates the assembly type, by its kind and its reference (0.4.0): a fire-resistance design (UL), a standard designation (such as a Gypsum Association GA-600 file), an evaluation report or a manufacturer technical data sheet. The rated values themselves are assemblyAttributes property values whose basis names this listing."@en ;
+   samm:characteristic :ListingCharacteristic .
+
+:hasPart a samm:Property ;
+   samm:preferredName "Has part"@en ;
+   samm:description "The parts the assembly is made of, each by its material definition ID, with Catena-X quantity semantics."@en ;
+   samm:characteristic :PartLineList .
+
+:assemblyAttributes a samm:Property ;
+   samm:description "Values of the assembly's IFC property-set properties."@en ;
+   samm:characteristic :PropertyValueList .
+
+:manufacturerOccurrence a samm:Property ;
+   samm:description "Values of the IFC Pset_ManufacturerOccurrence properties."@en ;
+   samm:characteristic :PropertyValueList .
+
+:constructionOccurrence a samm:Property ;
+   samm:description "Values of the IFC Pset_ConstructionOccurence properties."@en ;
+   samm:characteristic :PropertyValueList .
+
+:installationOccurrence a samm:Property ;
+   samm:description "Values of the IFC Pset_InstallationOccurrence properties."@en ;
+   samm:characteristic :PropertyValueList .
+
+:process a samm:Property ;
+   samm:preferredName "Production process"@en ;
+   samm:description "The ISA-95 job order and job response that produced the assembly."@en ;
+   samm:characteristic :ProcessCharacteristic .
+
+:status a samm:Property ;
+   samm:preferredName "Status"@en ;
+   samm:description "The assembly's lifecycle status, keyed by its published property URI."@en ;
+   samm:characteristic :StatusCharacteristic .
+
+:fabricationFiles a samm:Property ;
+   samm:preferredName "Fabrication files"@en ;
+   samm:description "The assembly's geometry and machining files (AP242, AP238, DSTV XAS), referenced by URI and SHA-256, never embedded."@en ;
+   samm:characteristic :FileReferenceList .
+
+:provenance a samm:Property ;
+   samm:preferredName "Provenance"@en ;
+   samm:description "Who authored the record, when, from which sources, and whether it is illustrative."@en ;
+   samm:characteristic :ProvenanceCharacteristic .
+
+# ---- characteristics ------------------------------------------------
+
+:Uri a samm:Characteristic ;
+   samm:dataType xsd:anyURI .
+
+:Text a samm:Characteristic ;
+   samm:dataType xsd:string .
+
+:Flag a samm:Characteristic ;
+   samm:dataType xsd:boolean .
+
+:Decimal a samm:Characteristic ;
+   samm:dataType xsd:decimal .
+
+:Day a samm:Characteristic ;
+   samm:dataType xsd:date .
+
+:UnitOfMeasure a samm:Characteristic ;
+   samm:description "A UN/CEFACT Recommendation 20 common code (bound to the open standard's units definition)."@en ;
+   samm:dataType xsd:string .
+
+:TextList a samm-c:List ;
+   samm:dataType xsd:string .
+
+:Count a samm:Characteristic ;
+   samm:dataType xsd:nonNegativeInteger .
+
+:Resolution a samm-c:Enumeration ;
+   samm:dataType xsd:string ;
+   samm-c:values ( "VERIFIED" "UNVERIFIED" "PENDING" "NONE-AVAILABLE" ) .
+
+:BasisKind a samm-c:Enumeration ;
+   samm:dataType xsd:string ;
+   samm-c:values ( "measured" "derived" "default" "substituted" ) .
+
+:AssetKind a samm-c:Enumeration ;
+   samm:description "The AAS asset kind."@en ;
+   samm:dataType xsd:string ;
+   samm-c:values ( "Type" "Instance" "Batch" ) .
+
+:IdentityCharacteristic a samm:Characteristic ;
+   samm:dataType :Identity .
+
+:ClassificationList a samm-c:List ;
+   samm:dataType :ClassificationReference .
+
+:PropertyValueList a samm-c:List ;
+   samm:dataType :PropertyValue .
+
+:FileReferenceList a samm-c:List ;
+   samm:dataType :FileReference .
+
+:ProvenanceCharacteristic a samm:Characteristic ;
+   samm:dataType :Provenance .
+
+:BasisCharacteristic a samm:Characteristic ;
+   samm:dataType :Basis .
+
+# ---- entities -------------------------------------------------------
+
+:Identity a samm:Entity ;
+   samm:properties ( [ samm:property :iec61406Link ; samm:optional true ] [ samm:property :globalAssetId ; samm:optional true ] :assetKind [ samm:property :serialNumber ; samm:optional true ] [ samm:property :lot ; samm:optional true ] ) .
+
+:iec61406Link a samm:Property ;
+   samm:description "The IEC 61406 identification link (a GS1 Digital Link under EN 18219 is accepted)."@en ;
+   samm:characteristic :Uri .
+
+:globalAssetId a samm:Property ;
+   samm:description "The AAS globalAssetId the identification link resolves to."@en ;
+   samm:characteristic :Uri .
+
+:assetKind a samm:Property ;
+   samm:characteristic :AssetKind .
+
+:serialNumber a samm:Property ;
+   samm:characteristic :Text .
+
+:lot a samm:Property ;
+   samm:characteristic :Text .
+
+:ClassificationReference a samm:Entity ;
+   samm:description "Bound to https://schemas.ectropy.ai/v/0.1.0/_definitions/classification-ref.schema.json."@en ;
+   samm:properties ( :system :code [ samm:property :version ; samm:optional true ] [ samm:property :uri ; samm:optional true ] :licence :resolution [ samm:property :resolvedVia ; samm:optional true ] :observedAt :synthetic [ samm:property :label ; samm:optional true ] ) .
+
+:system a samm:Property ;
+   samm:description "The classification system, such as etim, ifc or cci."@en ;
+   samm:characteristic :Text .
+
+:code a samm:Property ;
+   samm:characteristic :Text .
+
+:version a samm:Property ;
+   samm:characteristic :Text .
+
+:uri a samm:Property ;
+   samm:characteristic :Uri .
+
+:licence a samm:Property ;
+   samm:characteristic :Text .
+
+:resolution a samm:Property ;
+   samm:characteristic :Resolution .
+
+:resolvedVia a samm:Property ;
+   samm:characteristic :Text .
+
+:observedAt a samm:Property ;
+   samm:characteristic :Day .
+
+:synthetic a samm:Property ;
+   samm:characteristic :Flag .
+
+:label a samm:Property ;
+   samm:characteristic :Text .
+
+:PropertyValue a samm:Entity ;
+   samm:description "One property's value, keyed by its published property URI. At most one of numericValue, textValue and booleanValue is present, and a present value carries its basis."@en ;
+   samm:properties ( :propertyUri [ samm:property :propertyCode ; samm:optional true ] [ samm:property :name ; samm:optional true ] [ samm:property :propertySet ; samm:optional true ] [ samm:property :dataType ; samm:optional true ] [ samm:property :allowedUnits ; samm:optional true ] [ samm:property :numericValue ; samm:optional true ] [ samm:property :textValue ; samm:optional true ] [ samm:property :booleanValue ; samm:optional true ] [ samm:property :unit ; samm:optional true ] [ samm:property :basis ; samm:optional true ] ) .
+
+:propertyUri a samm:Property ;
+   samm:characteristic :Uri .
+
+:propertyCode a samm:Property ;
+   samm:characteristic :Text .
+
+:name a samm:Property ;
+   samm:characteristic :Text .
+
+:propertySet a samm:Property ;
+   samm:characteristic :Text .
+
+:dataType a samm:Property ;
+   samm:description "The property's data type as its dictionary publishes it."@en ;
+   samm:characteristic :Text .
+
+:allowedUnits a samm:Property ;
+   samm:description "The units the property's dictionary allows, as the dictionary publishes their symbols."@en ;
+   samm:characteristic :TextList .
+
+:numericValue a samm:Property ;
+   samm:characteristic :Decimal .
+
+:textValue a samm:Property ;
+   samm:characteristic :Text .
+
+:booleanValue a samm:Property ;
+   samm:characteristic :Flag .
+
+:unit a samm:Property ;
+   samm:characteristic :UnitOfMeasure .
+
+:basis a samm:Property ;
+   samm:characteristic :BasisCharacteristic .
+
+:Basis a samm:Entity ;
+   samm:description "Bound to https://schemas.ectropy.ai/v/0.8.0/flow/flow-common.schema.json#/definitions/basis."@en ;
+   samm:properties ( :kind [ samm:property :eventIds ; samm:optional true ] [ samm:property :method ; samm:optional true ] [ samm:property :source ; samm:optional true ] ) .
+
+:kind a samm:Property ;
+   samm:characteristic :BasisKind .
+
+:eventIds a samm:Property ;
+   samm:characteristic :TextList .
+
+:method a samm:Property ;
+   samm:characteristic :Text .
+
+:source a samm:Property ;
+   samm:characteristic :Text .
+
+:FileReference a samm:Entity ;
+   samm:description "Bound to https://schemas.ectropy.ai/v/0.1.0/_definitions/file-reference.schema.json."@en ;
+   samm:properties ( :uri :sha256 :contentType [ samm:property :sizeBytes ; samm:optional true ] [ samm:property :format ; samm:optional true ] ) .
+
+:sha256 a samm:Property ;
+   samm:characteristic :Text .
+
+:contentType a samm:Property ;
+   samm:characteristic :Text .
+
+:sizeBytes a samm:Property ;
+   samm:characteristic :Count .
+
+:format a samm:Property ;
+   samm:description "The file format beyond its media type, such as iso-10303-242 or dstv-nc-8.0."@en ;
+   samm:characteristic :Text .
+
+:Provenance a samm:Entity ;
+   samm:properties ( :authoredAt :authoredBy :illustrative :sources ) .
+
+:authoredAt a samm:Property ;
+   samm:characteristic :Day .
+
+:authoredBy a samm:Property ;
+   samm:characteristic :Text .
+
+:illustrative a samm:Property ;
+   samm:characteristic :Flag .
+
+:sources a samm:Property ;
+   samm:characteristic :TextList .
+
+:PartLineList a samm-c:List ;
+   samm:dataType :PartLine .
+
+:ProcessCharacteristic a samm:Characteristic ;
+   samm:dataType :ProcessRecord .
+
+:StatusCharacteristic a samm:Characteristic ;
+   samm:dataType :StatusValue .
+
+:Instant a samm:Characteristic ;
+   samm:dataType xsd:dateTime .
+
+:PartLine a samm:Entity ;
+   samm:description "One part line. A bulk-counted part carries no quantity; any other carries a quantity, its unit and its basis, per one declaredUnit of the assembly when the record states one. A line with occurrences carries one per counted unit. In a layered system type a line may state the layer it fills and the products listed for it."@en ;
+   samm:properties ( :partMaterialDefinitionId :requirementId :bulkCount [ samm:property :quantity ; samm:optional true ] [ samm:property :uom ; samm:optional true ] [ samm:property :basis ; samm:optional true ] [ samm:property :source ; samm:optional true ] [ samm:property :occurrences ; samm:optional true ] [ samm:property :layer ; samm:optional true ] [ samm:property :listedProducts ; samm:optional true ] ) .
+
+:partMaterialDefinitionId a samm:Property ;
+   samm:payloadName "materialDefinitionId" ;
+   samm:characteristic :Uri .
+
+:requirementId a samm:Property ;
+   samm:characteristic :Text .
+
+:bulkCount a samm:Property ;
+   samm:characteristic :Flag .
+
+:quantity a samm:Property ;
+   samm:characteristic :Decimal .
+
+:uom a samm:Property ;
+   samm:characteristic :UnitOfMeasure .
+
+:ProcessRecord a samm:Entity ;
+   samm:properties ( :jobOrderId :jobResponseId :jobState :startTime :endTime :basis ) .
+
+:jobOrderId a samm:Property ;
+   samm:characteristic :Text .
+
+:jobResponseId a samm:Property ;
+   samm:characteristic :Text .
+
+:jobState a samm:Property ;
+   samm:characteristic :Text .
+
+:startTime a samm:Property ;
+   samm:characteristic :Instant .
+
+:endTime a samm:Property ;
+   samm:characteristic :Instant .
+
+:StatusValue a samm:Entity ;
+   samm:properties ( :propertyUri [ samm:property :textValue ; samm:optional true ] [ samm:property :basis ; samm:optional true ] ) .
+
+# ---- design view: placed occurrences (0.2.0) --------------------------
+
+:occurrences a samm:Property ;
+   samm:preferredName "Occurrences"@en ;
+   samm:description "Each placed occurrence of the part in the assembly's frame -- the record's design view. The assembly's frame has its origin at the assembly's insertion point, +Z up and +X along the assembly's principal member; the host model supplies only the insertion point and the +X direction."@en ;
+   samm:characteristic :OccurrenceList .
+
+:OccurrenceList a samm-c:List ;
+   samm:dataType :Occurrence .
+
+:Occurrence a samm:Entity ;
+   samm:description "One occurrence: where the part's base-form frame sits in the assembly's frame, and the values of any base-form dimension that varies by occurrence (such as a rod's cut length), each keyed by its published property URI."@en ;
+   samm:properties ( :occurrenceId :placement [ samm:property :parameters ; samm:optional true ] [ samm:property :bends ; samm:optional true ] ) .
+
+:occurrenceId a samm:Property ;
+   samm:description "The occurrence's identifier, unique within its assembly."@en ;
+   samm:characteristic :Text .
+
+:placement a samm:Property ;
+   samm:characteristic :PlacementCharacteristic .
+
+:parameters a samm:Property ;
+   samm:characteristic :PropertyValueList .
+
+:PlacementCharacteristic a samm:Characteristic ;
+   samm:dataType :Placement .
+
+:Placement a samm:Entity ;
+   samm:description "The part's base-form origin, local Z (axis) and local X (refDirection) in the assembly's frame. Coordinates are in unit; the directions are unit vectors."@en ;
+   samm:properties ( :location :axis :refDirection :unit ) .
+
+:location a samm:Property ;
+   samm:characteristic :Coordinates .
+
+:axis a samm:Property ;
+   samm:characteristic :Coordinates .
+
+:refDirection a samm:Property ;
+   samm:characteristic :Coordinates .
+
+:Coordinates a samm-c:Trait ;
+   samm-c:baseCharacteristic :DecimalList ;
+   samm-c:constraint [
+      a samm-c:LengthConstraint ;
+      samm-c:minValue "3"^^xsd:nonNegativeInteger ;
+      samm-c:maxValue "3"^^xsd:nonNegativeInteger ;
+   ] .
+
+:DecimalList a samm-c:List ;
+   samm:dataType xsd:decimal .
+
+# ---- fabrication view: a bent part's bend sequence (0.3.0) -------------
+
+:bends a samm:Property ;
+   samm:preferredName "Bends"@en ;
+   samm:description "How the occurrence's part is bent, as nominal bend data: each bend in order, as the straight length fed before it, the rotation of its plane and its angle, then the straight after the last bend. This is the tube industry's LRA form (Length, Rotation, Angle; Eaton Leonard's YBC names the same three bender axes): nominal geometry, never adjusted for springback or twist -- a machine's adjusted bender data is its own. Each value is relative to the bend before it (the incremental form), not to the tube's start. Lengths are along the centreline."@en ;
+   samm:characteristic :BendSequenceCharacteristic .
+
+:BendSequenceCharacteristic a samm:Characteristic ;
+   samm:dataType :BendSequence .
+
+:BendSequence a samm:Entity ;
+   samm:description "A part's bends in order, the straight after the last, and the basis of the figures. A part family states its bends' angles, rotations and radius; a piece of it adds its straights."@en ;
+   samm:properties ( :bendList [ samm:property :finalStraight ; samm:optional true ] :basis ) .
+
+:bendList a samm:Property ;
+   samm:description "The bends in the order the part is bent."@en ;
+   samm:characteristic :BendList .
+
+:BendList a samm-c:List ;
+   samm:dataType :Bend .
+
+:Bend a samm:Entity ;
+   samm:description "One bend: the straight fed before it, the rotation of its plane from the previous bend's plane (0 for the first bend), its angle, and the centreline radius it is bent to, when stated."@en ;
+   samm:properties ( [ samm:property :straightBefore ; samm:optional true ] :rotation :angle [ samm:property :centerlineRadius ; samm:optional true ] ) .
+
+:straightBefore a samm:Property ;
+   samm:description "The straight length fed before the bend, along the centreline, from the end of the previous bend (from the part's start for the first)."@en ;
+   samm:characteristic :QuantityCharacteristic .
+
+:rotation a samm:Property ;
+   samm:description "The rotation of the bend's plane about the tube's axis from the previous bend's plane, in degrees (DD); 0 for the first bend."@en ;
+   samm:characteristic :QuantityCharacteristic .
+
+:angle a samm:Property ;
+   samm:description "The bend angle, in degrees (DD)."@en ;
+   samm:characteristic :QuantityCharacteristic .
+
+:centerlineRadius a samm:Property ;
+   samm:description "The radius the bend is made to, at the tube's centreline (a bender shoe's radius)."@en ;
+   samm:characteristic :QuantityCharacteristic .
+
+:finalStraight a samm:Property ;
+   samm:description "The straight length after the last bend, along the centreline."@en ;
+   samm:characteristic :QuantityCharacteristic .
+
+:QuantityCharacteristic a samm:Characteristic ;
+   samm:dataType :Quantity .
+
+:Quantity a samm:Entity ;
+   samm:description "Bound to https://schemas.ectropy.ai/v/2.0.0/_definitions/units.schema.json#/definitions/quantity."@en ;
+   samm:properties ( :quantityValue :uom ) .
+
+:quantityValue a samm:Property ;
+   samm:characteristic :Decimal .
+
+# ---- system type view: layers, listed products, listing (0.4.0) -------
+
+:ListingCharacteristic a samm:Characteristic ;
+   samm:dataType :Listing .
+
+:ListingKind a samm-c:Enumeration ;
+   samm:dataType xsd:string ;
+   samm-c:values ( "ul-design" "standard" "evaluation-report" "manufacturer-tds" ) .
+
+:Listing a samm:Entity ;
+   samm:description "A published design or document that rates an assembly type: its kind and its reference as the publisher states it (a UL design number, a GA file number, a report number), and where it is served."@en ;
+   samm:properties ( :listingKind :reference [ samm:property :uri ; samm:optional true ] ) .
+
+:listingKind a samm:Property ;
+   samm:payloadName "kind" ;
+   samm:characteristic :ListingKind .
+
+:reference a samm:Property ;
+   samm:description "The design or document reference as its publisher states it, such as U419 or WP 3820."@en ;
+   samm:characteristic :Text .
+
+:layer a samm:Property ;
+   samm:preferredName "Layer"@en ;
+   samm:description "The layer of a layered system type this part line fills (0.4.0), after the IFC material layer: its position in the build-up, counted from face A (the IfcMaterialLayerSet order, exterior or top first), its IFC layer category, the face it is on and its thickness. A part that spans the build-up, such as a fastener or a stud, states the layer it is fixed in."@en ;
+   samm:characteristic :LayerCharacteristic .
+
+:LayerCharacteristic a samm:Characteristic ;
+   samm:dataType :Layer .
+
+:Layer a samm:Entity ;
+   samm:properties ( :layerPosition [ samm:property :category ; samm:optional true ] [ samm:property :face ; samm:optional true ] [ samm:property :thickness ; samm:optional true ] ) .
+
+:layerPosition a samm:Property ;
+   samm:payloadName "position" ;
+   samm:description "The layer's position in the build-up, 1 at face A."@en ;
+   samm:characteristic :Count .
+
+:category a samm:Property ;
+   samm:description "The IFC material layer category: LoadBearing, Insulation, Inner finish, Outer finish, or another keyword the IFC material layer names."@en ;
+   samm:characteristic :Text .
+
+:face a samm:Property ;
+   samm:description "The face the layer is on: face-a, face-b or core."@en ;
+   samm:characteristic :Face .
+
+:Face a samm-c:Enumeration ;
+   samm:dataType xsd:string ;
+   samm-c:values ( "face-a" "face-b" "core" ) .
+
+:thickness a samm:Property ;
+   samm:description "The layer's nominal thickness, as the IFC material layer's LayerThickness."@en ;
+   samm:characteristic :QuantityCharacteristic .
+
+:listedProducts a samm:Property ;
+   samm:preferredName "Listed products"@en ;
+   samm:description "The manufacturer products listed to fill this part line (0.4.0), each by its product key: the alternates a listing names for the slot (a UL design's items 1A, 1B, 1C), any one of which conforms. The part line's materialDefinitionId names the generic material the slot calls for."@en ;
+   samm:characteristic :ProductKeyList .
+
+:ProductKeyList a samm-c:List ;
+   samm:dataType :ProductKey .
+
+:ProductKey a samm:Entity ;
+   samm:description "Bound to https://schemas.ectropy.ai/v/0.8.0/flow/flow-common.schema.json#/definitions/productKey."@en ;
+   samm:properties ( :manufacturer :manufacturerProductId ) .
+
+:manufacturer a samm:Property ;
+   samm:description "The manufacturer's slug."@en ;
+   samm:characteristic :Text .
+
+:manufacturerProductId a samm:Property ;
+   samm:description "The manufacturer's own product identifier."@en ;
+   samm:characteristic :Text .
+
